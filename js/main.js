@@ -10,6 +10,7 @@ var buttonResults = document.querySelector('#buttonResults');
 var clothesList = document.querySelector('#resultsClothesList');
 var toDoList = document.querySelector('#resultsToDoList');
 var progress = document.querySelector('#progress');
+var buttonReset = document.querySelector('#buttonReset');
 var airport;
 var weather;
 document.querySelector('#container2').style.visibility = 'hidden';
@@ -29,6 +30,22 @@ superCold = ["Warm sweater", "Warm jeans or trousers", "Thermal underwear", "War
 regular = ["Pajamas", "Underwear"];
 todo = ["Take passport", "Take money", "Check visa and insurance", "Book accommodations", "Shower", "Pack and check luggage's weight"];
 todoCold = ["Apply cold-protection cream"];
+
+if (localStorage.length == 3) {
+
+    if (localStorage.getItem('gender') == 'female') {
+        document.querySelector('#female').checked = true;
+    } else {
+        document.querySelector('#male').checked = true;
+    }
+
+    var text = "Your last travel was from " + localStorage.getItem('departure') + " to " + localStorage.getItem('arrival');
+    alert(text);
+}
+
+buttonReset.onclick = function(event) {
+    localStorage.clear();
+}
 
 buttonAirport.onclick = function(event) {
 
@@ -76,6 +93,8 @@ buttonAddAirport.onclick = function(event) {
         var strUser = e.options[e.selectedIndex].text;
         var text = document.createTextNode(strUser);
         paragraph.appendChild(text);
+
+        localStorage.setItem('departure', strUser);
     }
 }
 
@@ -112,6 +131,8 @@ buttonWeatherAdd.onclick = function(event) {
         var paragraph = document.querySelector('#arrival');
         var text = document.createTextNode(weather.location.name + ", " + weather.location.country);
         paragraph.appendChild(text);
+
+        localStorage.setItem('arrival', weather.location.name + ", " + weather.location.country);
     }
 }
 
@@ -119,25 +140,47 @@ buttonResults.onclick = function(event) {
     if (!document.querySelector('#female').checked && !document.querySelector('#male').checked) {
         alert("Please choose your gender");
     } else {
+        var gender;
+        if (document.querySelector('#female').checked) {
+            gender = 'female';
+
+        } else {
+            gender = 'male';
+        }
+        localStorage.setItem('gender', gender);
+
         document.querySelector('#container3').style.visibility = 'hidden';
         document.querySelector('#container4').style.visibility = 'visible';
 
         var temperature = weather.current.temperature;
         var desc = weather.current.weather_descriptions[0];
-        var clothes;
+        var clothes = [];
 
         if (temperature >= 25) {
-            clothes = hot;
+            clothes = clothes.concat(hot);
+            if (document.querySelector('#female').checked) {
+                clothes = clothes.concat(female_hot);
+            }
         } else if (temperature >= 20) {
-            clothes = warm;
+            clothes = clothes.concat(warm);
+            if (document.querySelector('#female').checked) {
+                clothes = clothes.concat(female_warm);
+            }
         } else if (temperature >= 15) {
-            clothes = norm;
+            clothes = clothes.concat(norm);
         } else if (temperature >= 2) {
-            clothes = chilly;
+            clothes = clothes.concat(chilly);
         } else if (temperature >= -5) {
-            clothes = cold;
+            clothes = clothes.concat(cold);
         } else {
-            clothes = superCold;
+            clothes = clothes.concat(superCold);
+        }
+
+        clothes = clothes.concat(regular);
+
+        if (desc.includes("hower") || desc.includes("ain") || desc.includes("vercast") || desc.includes("loud")) {
+            var arr = ["Umbrella or raincoat"];
+            clothes = clothes.concat(arr);
         }
 
         for (i = 0; i < clothes.length; i++) {
@@ -146,33 +189,14 @@ buttonResults.onclick = function(event) {
             entry.className = "list-group-item";
             clothesList.appendChild(entry);
         }
-        if (temperature >= 25 && document.querySelector('#female').checked) {
-            for (i = 0; i < female_hot.length; i++) {
-                var entry = document.createElement('li');
-                entry.appendChild(document.createTextNode(female_hot[i]));
-                entry.className = "list-group-item";
-                clothesList.appendChild(entry);
-            }
+
+        if (temperature < 0) {
+            todo = todo.concat(todoCold);
         }
-        if (temperature >= 20 && document.querySelector('#female').checked) {
-            for (i = 0; i < female_warm.length; i++) {
-                var entry = document.createElement('li');
-                entry.appendChild(document.createTextNode(female_warm[i]));
-                entry.className = "list-group-item";
-                clothesList.appendChild(entry);
-            }
-        }
-        for (i = 0; i < regular.length; i++) {
-            var entry = document.createElement('li');
-            entry.appendChild(document.createTextNode(regular[i]));
-            entry.className = "list-group-item";
-            clothesList.appendChild(entry);
-        }
-        if (desc.includes("hower") || desc.includes("ain") || desc.includes("vercast") || desc.includes("loud")) {
-            var entry = document.createElement('li');
-            entry.appendChild(document.createTextNode("Umbrella or raincoat"));
-            entry.className = "list-group-item";
-            clothesList.appendChild(entry);
+
+        if (weather.current.uv_index >= 3.6) {
+            var arr = ["Apply sunscreen"];
+            todo = todo.concat(arr);
         }
 
         for (i = 0; i < todo.length; i++) {
@@ -182,20 +206,6 @@ buttonResults.onclick = function(event) {
             toDoList.appendChild(entry);
         }
 
-        if (temperature < 0) {
-            for (i = 0; i < todoCold.length; i++) {
-                var entry = document.createElement('li');
-                entry.appendChild(document.createTextNode(todoCold[i]));
-                entry.className = "list-group-item";
-                toDoList.appendChild(entry);
-            }
-        }
-        if (weather.current.uv_index >= 3.6) {
-            var entry = document.createElement('li');
-            entry.appendChild(document.createTextNode("Apply sunscreen"));
-            entry.className = "list-group-item";
-            toDoList.appendChild(entry);
-        }
         progress.style.width = "100%";
     }
 }
