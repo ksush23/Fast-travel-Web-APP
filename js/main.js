@@ -10,9 +10,11 @@ var buttonResults = document.querySelector('#buttonResults');
 var clothesList = document.querySelector('#resultsClothesList');
 var toDoList = document.querySelector('#resultsToDoList');
 var progress = document.querySelector('#progress');
-var buttonReset = document.querySelector('#buttonReset');
+var departureAirports = document.querySelector('#departureAirportList');
+var arrivalCities = document.querySelector('#arrivalCityList');
 var airport;
 var weather;
+var arrivalCity;
 document.querySelector('#container2').style.visibility = 'hidden';
 document.querySelector('#container3').style.visibility = 'hidden';
 document.querySelector('#container4').style.visibility = 'hidden';
@@ -31,20 +33,20 @@ regular = ["Pajamas", "Underwear"];
 todo = ["Take passport", "Take money", "Check visa and insurance", "Book accommodations", "Shower", "Pack and check luggage's weight"];
 todoCold = ["Apply cold-protection cream"];
 
-if (localStorage.length == 3) {
 
-    if (localStorage.getItem('gender') == 'female') {
-        document.querySelector('#female').checked = true;
-    } else {
-        document.querySelector('#male').checked = true;
+function addLists() {
+    for (i = 0; i < localStorage.length; i++) {
+        var entry = document.createElement('li');
+        if (i % 2 == 0) {
+            entry.appendChild(document.createTextNode(localStorage.getItem("departure" + i)));
+            entry.className = "list-group-item";
+            departureAirports.appendChild(entry);
+        } else {
+            entry.appendChild(document.createTextNode(localStorage.getItem("arrival" + i)));
+            entry.className = "list-group-item";
+            arrivalCities.appendChild(entry);
+        }
     }
-
-    var text = "Your last travel was from " + localStorage.getItem('departure') + " to " + localStorage.getItem('arrival');
-    alert(text);
-}
-
-buttonReset.onclick = function(event) {
-    localStorage.clear();
 }
 
 buttonAirport.onclick = function(event) {
@@ -85,7 +87,6 @@ buttonAddAirport.onclick = function(event) {
         document.querySelector('#container1').style.visibility = 'hidden';
         document.querySelector('#container2').style.visibility = 'visible';
 
-        alert("Departure airport was added");
         progress.style.width = "40%";
 
         var paragraph = document.querySelector('#departure');
@@ -93,8 +94,6 @@ buttonAddAirport.onclick = function(event) {
         var strUser = e.options[e.selectedIndex].text;
         var text = document.createTextNode(strUser);
         paragraph.appendChild(text);
-
-        localStorage.setItem('departure', strUser);
     }
 }
 
@@ -126,13 +125,10 @@ buttonWeatherAdd.onclick = function(event) {
     } else {
         document.querySelector('#container2').style.visibility = 'hidden';
         document.querySelector('#container3').style.visibility = 'visible';
-        alert("Arrival city was added");
         progress.style.width = "80%";
         var paragraph = document.querySelector('#arrival');
         var text = document.createTextNode(weather.location.name + ", " + weather.location.country);
         paragraph.appendChild(text);
-
-        localStorage.setItem('arrival', weather.location.name + ", " + weather.location.country);
     }
 }
 
@@ -147,7 +143,6 @@ buttonResults.onclick = function(event) {
         } else {
             gender = 'male';
         }
-        localStorage.setItem('gender', gender);
 
         document.querySelector('#container3').style.visibility = 'hidden';
         document.querySelector('#container4').style.visibility = 'visible';
@@ -207,6 +202,8 @@ buttonResults.onclick = function(event) {
         }
 
         progress.style.width = "100%";
+        localStorage.setItem("departure" + localStorage.length, document.querySelector('#departure').textContent);
+        localStorage.setItem("arrival" + localStorage.length, document.querySelector('#arrival').textContent);
     }
 }
 

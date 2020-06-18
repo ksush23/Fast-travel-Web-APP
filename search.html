@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand"><i class="fas fa-plane-departure"></i>Fast travel app</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="search.html">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="history.html">History</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="margin-bottom: 50px; margin-top: 60px;">
+        <div class="row">
+            <div class="col-lg-6">
+                <h5>Departure airport: </h5>
+                <p id="departure"></p>
+            </div>
+            <div class="col-lg-6">
+                <h5>Arrival city: </h5>
+                <p id="arrival"></p>
+            </div>
+        </div>
+
+        <div class="progress">
+            <div id="progress" class="progress-bar progress-bar-striped progress-bar-animated" style="width:0%;"></div>
+        </div>
+    </div>
+
+    <div id="container1" class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Departure city</span>
+                    </div>
+                    <input id='inputAirport' type="text" class="form-control" placeholder="Enter city to look for airport" aria-label="Input phrase" aria-describedby="basic-addon1">
+                </div>
+            </div>
+
+            <div class="col-lg-2 text-center">
+                <button id="buttonAirport" type="button" class="btn btn-outline-primary" mb-3>Search <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="input-group mb-3">
+                    <select class="browser-default custom-select" id="airportList">
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-2 text-center">
+                <button id="buttonAddAirport" type="button" class="btn btn-outline-primary" mb-3>Add airport</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="container2" class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Arrival city</span>
+                    </div>
+                    <input id='inputWeather' type="text" class="form-control" placeholder="Enter city to look for the weather" aria-label="Input phrase" aria-describedby="basic-addon1">
+                </div>
+            </div>
+
+            <div class="col-lg-2 text-center">
+                <button id="buttonWeather" type="button" class="btn btn-outline-primary" mb-3>Search <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">City</span>
+                    </div>
+                    <input id="outputCityWeather" type="text" class="form-control" placeholder="" aria-label="City" disabled aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="col-lg-2 text-center">
+                <button id="buttonWeatherAdd" type="button" class="btn btn-outline-primary" mb-3><a href="results.html"></a>Add city of arrival</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="container3" class="container">
+        <div class="row">
+            <p class="col-lg-4"><strong>Select gender:</strong></p>
+            <div class="col-lg-6">
+                <form>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" id="male" name="male" value="male">
+                        <label class="custom-control-label" for="male">Male</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" id="female" name="female" value="female">
+                        <label class="custom-control-label" for="female">Female</label>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-2 text-center">
+                <button id="buttonResults" type="button" class="btn btn-outline-primary" mb-3>Create a list</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="container4" class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h5>Clothes to take with</h5>
+                <div class="input-group mb-3">
+                    <ul class="list-group browser-default" id="resultsClothesList">
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h5>To do before departure</h5>
+                <div class="input-group mb-3">
+                    <ul class="list-group browser-default" id="resultsToDoList">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="js/main.js" async defer></script>
+</body>
+
+</html>
