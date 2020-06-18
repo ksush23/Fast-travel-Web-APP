@@ -39,11 +39,11 @@ function addLists() {
         var entry = document.createElement('li');
         if (i % 2 == 0) {
             entry.appendChild(document.createTextNode(localStorage.getItem("departure" + i)));
-            entry.className = "list-group-item";
+            entry.className = "list-group-item list-group-item-warning";
             departureAirports.appendChild(entry);
         } else {
             entry.appendChild(document.createTextNode(localStorage.getItem("arrival" + i)));
-            entry.className = "list-group-item";
+            entry.className = "list-group-item list-group-item-warning";
             arrivalCities.appendChild(entry);
         }
     }
@@ -181,7 +181,7 @@ buttonResults.onclick = function(event) {
         for (i = 0; i < clothes.length; i++) {
             var entry = document.createElement('li');
             entry.appendChild(document.createTextNode(clothes[i]));
-            entry.className = "list-group-item";
+            entry.className = "list-group-item list-group-item-dark";
             clothesList.appendChild(entry);
         }
 
@@ -197,7 +197,7 @@ buttonResults.onclick = function(event) {
         for (i = 0; i < todo.length; i++) {
             var entry = document.createElement('li');
             entry.appendChild(document.createTextNode(todo[i]));
-            entry.className = "list-group-item";
+            entry.className = "list-group-item list-group-item-dark";
             toDoList.appendChild(entry);
         }
 
